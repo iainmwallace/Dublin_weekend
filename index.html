@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dublin Girls Weekend 🍀</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #169b62;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        .hotel-info {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #ffc107;
+        }
+
+        #map {
+            height: 500px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .day-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .day-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #169b62;
+        }
+
+        .day-icon {
+            font-size: 2em;
+            margin-right: 15px;
+        }
+
+        .day-title {
+            color: #169b62;
+            font-size: 1.8em;
+        }
+
+        .activity {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #ff6b6b;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .activity:hover {
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .activity-time {
+            color: #666;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .activity-name {
+            font-size: 1.4em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .activity-type {
+            display: inline-block;
+            background: #169b62;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-bottom: 10px;
+        }
+
+        .activity-description {
+            color: #555;
+            margin-bottom: 12px;
+        }
+
+        .rating {
+            color: #ffc107;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .activity-address {
+            color: #888;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        .tips {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .tips-title {
+            font-weight: bold;
+            color: #2196f3;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: white;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .day-title {
+                font-size: 1.4em;
+            }
+
+            #map {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍀 Dublin Girls Weekend 🍀</h1>
+            <p class="subtitle">Friday - Monday | Food, Drinks & Craic!</p>
+            <div class="hotel-info">
+                <strong>🏨 Home Base:</strong> The Fitzwilliam Hotel, St Stephen's Green<br>
+                <small>128-129 St Stephen's Green, Dublin 2</small>
+            </div>
+        </header>
+
+        <div id="map"></div>
+
+        <div class="day-section">
+            <div class="day-header">
+                <span class="day-icon">✈️</span>
+                <h2 class="day-title">Friday - Arrival Day</h2>
+            </div>
+
+            <div class="activity" data-lat="53.3398" data-lng="-6.2603">
+                <div class="activity-time">Morning - Arrival</div>
+                <div class="activity-name">Landing in Dublin!</div>
+                <span class="activity-type">Travel</span>
+                <p class="activity-description">
+                    Arrive from Boston, grab an Aircoach or taxi to The Fitzwilliam (about 30-40 min from airport). Check in, freshen up, and get ready for the weekend!
+                </p>
+            </div>
+
+            <div class="activity" data-lat="53.3390" data-lng="-6.2612">
+                <div class="activity-time">1:00 PM</div>
+                <div class="activity-name">Fade Street Social</div>
+                <span class="activity-type">Lunch</span>
+                <div class="rating">⭐⭐⭐⭐⭐ 4.5/5</div>
+                <p class="activity-description">
+                    Start your Dublin adventure with a fabulous lunch at this trendy spot. Chef Dylan McGrath's tapas-style menu is perfect for sharing. Try the pork belly bites and their famous fish & chips!
+                </p>
+                <p class="activity-address">4-6 Fade Street, Dublin 2 (5 min walk from hotel)</p>
+            </div>
+
+            <div class="activity" data-lat="53.3438" data-lng="-6.2674">
+                <div class="activity-time">3:30 PM</div>
+                <div class="activity-name">Guinness Storehouse</div>
+                <span class="activity-type">Experience</span>
+                <div class="rating">⭐⭐⭐⭐⭐ 4.7/5</div>
+                <p class="activity-description">
+                    A must-do! Learn how Guinness is made, pour your own perfect pint, and enjoy panoramic views of Dublin from the Gravity Bar. Book tickets online in advance!
+                </p>
+                <p class="activity-address">St James's Gate, Dublin 8</p>
+            </div>
+
+            <div class="activity" data-lat="53.3448" data-lng="-6.2639">
+                <div class="activity-time">7:00 PM</div>
+                <div class="activity-name">The Brazen Head</div>
+                <span class="activity-type">Dinner & Drinks</span>
+                <div class="rating">⭐⭐⭐⭐⭐ 4.6/5</div>
+                <p class="activity-description">
+                    Ireland's oldest pub (established 1198)! Traditional Irish food, live music, and great atmosphere. Perfect for your first night. Try the Irish stew and enjoy the trad session.
+                </p>
+                <p class="activity-address">20 Lower Bridge Street, Dublin 8</p>
+            </div>
+
+            <div class="activity" data-lat="53.3420" data-lng="-6.2624">
+                <div class="activity-time">10:00 PM</div>
+                <div class="activity-name">The Vintage Cocktail Club</div>
+                <span class="activity-type">Cocktails</span>
+                <div class="rating">⭐⭐⭐⭐⭐ 4.8/5</div>
+                <p class="activity-description">
+                    Hidden speakeasy-style bar with incredible cocktails. Ring the doorbell to enter this 1920s-inspired gem. Their mixologists are artists! Reserve ahead if possible.
+                </p>
+                <p class="activity-address">15 Crown Alley, Temple Bar, Dublin 2</p>
+            </div>
+        </div>
+
+        <div class="day-section">
+            <div class="day-header">
+                <span class="day-icon">🎉</span>
+                <h2 class="day-title">Saturday - Full Dublin Experience</h2>
+            </div>
+
+            <div class="activity" data-lat="53.3406" data-lng="-6.2598">
+                <div class="activity-time">9:00 AM</div>
+                <div class="activity-name">The Woollen Mills</div>
+                <span class="activity-type">Breakfast</span>
+                <div class="rating">⭐⭐⭐⭐ 4.4/5</div>
+                <p class="activity-description">
+                    Start your day with a hearty Irish breakfast overlooking the Ha'penny Bridge. Great coffee, amazing views, and delicious food. Try their eggs Benedict!
+                </p>
+                <p class="activity-address">42 Lower Ormond Quay, Dublin 1</p>
+            </div>
+
+            <div class="activity" data-lat="53.3498" data-lng="-6.2603">
+                <div class="activity-time">11:00 AM</div>
+                <div class="activity-name">Jameson Distillery Bow St.</div>
+                <span class="activity-type">Experience</span>
+                <div class="rating">⭐⭐⭐⭐⭐ 4.7/5</div>
+                <p class="activity-description">
+                    Discover the story of Irish whiskey! Take a guided tour, enjoy tastings, and learn to make your own whiskey cocktail. The Whiskey Makers experience is highly recommended. Book in advance!
+                </p>
+                <p class="activity-address">Bow Street, Smithfield, Dublin 7</p>
+            </div>
+
+            <div class="activity" data-lat="53.3454" data-lng="-6.2626">
+                <div class="activity-time">1:30 PM</div>
+                <div class="activity-name">The Winding Stair</div>
+                <span class="activity-type">Lunch</span>
+                <div class="rating">⭐⭐⭐⭐⭐ 4.6/5</div>
+                <p class="activity-description">
+                    Beautiful restaurant above a bookshop with stunning views of the River Liffey. Irish cuisine with local ingredients. Book a window seat! Their seafood is exceptional.
+                </p>
+                <p class="activity-address">40 Lower Ormond Quay, Dublin 1</p>
+            </div>
+
+            <div class="activity" data-lat="53.3418" data-lng="-6.2554">
+                <div class="activity-time">3:30 PM</div>
+                <div class="activity-name">Trinity College & Book of Kells</div>
+                <span class="activity-type">Culture</span>
+                <div class="rating">⭐⭐⭐⭐⭐ 4.5/5</div>
+                <p class="activity-description">
+                    Stroll through Ireland's oldest university, see the stunning Long Room library, and view the ancient Book of Kells. Perfect for photos and culture!
+                </p>
+                <p class="activity-address">College Green, Dublin 2</p>
+            </div>
+
+            <div class="activity" data-lat="53.3389" data-lng="-6.2595">
+                <div class="activity-time">5:30 PM</div>
+                <div class="activity-name">Sophie's at The Dean</div>
+                <span class="activity-type">Cocktails</span>
+                <div class="rating">⭐⭐⭐⭐⭐ 4.7/5</div>
+                <p class="activity-description">
+                    Rooftop bar with incredible views over Dublin! Watch the sunset with creative cocktails. Trendy, fun atmosphere perfect for girls' night. Gets busy so arrive early!
+                </p>
+                <p class="activity-address">The Dean Hotel, 33 Harcourt Street, Dublin 2</p>
+            </div>
+
+            <div class="activity" data-lat="53.3442" data-lng="-6.2674">
+                <div class="activity-time">8:00 PM</div>
+                <div class="activity-name">Chapter One</div>
+                <span class="activity-type">Dinner</span>
+                <div class="rating">⭐⭐⭐⭐⭐ 4.9/5</div>
+                <p class="activity-description">
+                    Michelin-starred restaurant offering modern Irish cuisine. A splurge-worthy experience! Tasting menu recommended. Book well in advance - this is a highlight!
+                </p>
+                <p class="activity-address">18-19 Parnell Square North, Dublin 1</p>
+            </div>
+
+            <div class="activity" data-lat="53.3444" data-lng="-6.2589">
+                <div class="activity-time">10:30 PM</div>
+                <div class="activity-name">Token</div>
+                <span class="activity-type">Bar & Fun</span>
+                <div class="rating">⭐⭐⭐⭐⭐ 4.6/5</div>
+                <p class="activity-description">
+                    Vintage arcade bar! Play retro video games, air hockey, and enjoy craft cocktails. Super fun and unique. Great for laughs and friendly competition!
+                </p>
+                <p class="activity-address">41-43 Pearse Street, Dublin 2</p>
+            </div>
+        </div>
+
+        <div class="day-section">
+            <div class="day-header">
+                <span class="day-icon">🌟</span>
+                <h2 class="day-title">Sunday - Explore & Indulge</h2>
+            </div>
+
+            <div class="activity" data-lat="53.3403" data-lng="-6.2582">
+                <div class="activity-time">10:00 AM</div>
+                <div class="activity-name">Brother Hubbard</div>
+                <span class="activity-type">Brunch</span>
+                <div class="rating">⭐⭐⭐⭐⭐ 4.7/5</div>
+                <p class="activity-description">
+                    Middle Eastern-inspired brunch spot. Amazing flavors! Try the Turkish eggs or the French toast. Excellent coffee. Expect a queue on weekends - worth the wait!
+                </p>
+                <p class="activity-address">153 Capel Street, Dublin 1</p>
+            </div>
+
+            <div class="activity" data-lat="53.3375" data-lng="-6.2612">
+                <div class="activity-time">12:00 PM</div>
+                <div class="activity-name">St Stephen's Green</div>
+                <span class="activity-type">Leisure</span>
+                <div class="rating">⭐⭐⭐⭐⭐ 4.5/5</div>
+                <p class="activity-description">
+                    Take a leisurely stroll through this beautiful Victorian park right next to your hotel. Perfect for a Sunday walk, people watching, and taking photos.
+                </p>
+                <p class="activity-address">St Stephen's Green, Dublin 2</p>
+            </div>
+
+            <div class="activity" data-lat="53.3398" data-lng="-6.2603">
+                <div class="activity-time">1:00 PM</div>
+                <div class="activity-name">Grafton Street Shopping</div>
+                <span class="activity-type">Shopping</span>
+                <div class="rating">⭐⭐⭐⭐ 4.3/5</div>
+                <p class="activity-description">
+                    Dublin's main shopping street! Browse Irish brands, grab souvenirs, and enjoy street performers. Pop into Brown Thomas for luxury shopping. Great for gifts!
+                </p>
+                <p class="activity-address">Grafton Street, Dublin 2</p>
+            </div>
+
+            <div class="activity" data-lat="53.3422" data-lng="-6.2628">
+                <div class="activity-time">3:00 PM</div>
+                <div class="activity-name">Queen of Tarts</div>
+                <span class="activity-type">Café</span>
+                <div class="rating">⭐⭐⭐⭐⭐ 4.6/5</div>
+                <p class="activity-description">
+                    Charming café with incredible homemade cakes and pastries. Perfect afternoon tea spot! Try their lemon meringue pie or chocolate cake. Cozy and delightful!
+                </p>
+                <p class="activity-address">4 Cork Hill, Dublin 2</p>
+            </div>
+
+            <div class="activity" data-lat="53.3456" data-lng="-6.2645">
+                <div class="activity-time">6:00 PM</div>
+                <div class="activity-name">The Church</div>
+                <span class="activity-type">Dinner & Drinks</span>
+                <div class="rating">⭐⭐⭐⭐ 4.4/5</div>
+                <p class="activity-description">
+                    Unique restaurant in a converted church! Multiple floors, bars, and dining areas. Great atmosphere, good food, and interesting setting. Try to get a seat near the organ!
+                </p>
+                <p class="activity-address">Junction of Mary Street & Jervis Street, Dublin 1</p>
+            </div>
+
+            <div class="activity" data-lat="53.3443" data-lng="-6.2675">
+                <div class="activity-time">9:00 PM</div>
+                <div class="activity-name">O'Donoghue's Bar</div>
+                <span class="activity-type">Traditional Music</span>
+                <div class="rating">⭐⭐⭐⭐⭐ 4.7/5</div>
+                <p class="activity-description">
+                    Famous traditional Irish music pub! The Dubliners started here. Authentic atmosphere, great Guinness, and excellent live music sessions. A true Dublin experience!
+                </p>
+                <p class="activity-address">15 Merrion Row, Dublin 2</p>
+            </div>
+        </div>
+
+        <div class="day-section">
+            <div class="day-header">
+                <span class="day-icon">👋</span>
+                <h2 class="day-title">Monday - Final Adventures</h2>
+            </div>
+
+            <div class="activity" data-lat="53.3398" data-lng="-6.2603">
+                <div class="activity-time">8:30 AM</div>
+                <div class="activity-name">The Fitzwilliam Hotel Breakfast</div>
+                <span class="activity-type">Breakfast</span>
+                <div class="rating">⭐⭐⭐⭐ 4.5/5</div>
+                <p class="activity-description">
+                    Enjoy a leisurely breakfast at your hotel before checking out. They have an excellent buffet spread to fuel you for your last morning!
+                </p>
+                <p class="activity-address">At the hotel</p>
+            </div>
+
+            <div class="activity" data-lat="53.3415" data-lng="-6.2844">
+                <div class="activity-time">10:00 AM</div>
+                <div class="activity-name">Irish Museum of Modern Art</div>
+                <span class="activity-type">Culture</span>
+                <div class="rating">⭐⭐⭐⭐ 4.4/5</div>
+                <p class="activity-description">
+                    Beautiful museum in the Royal Hospital Kilmainham. Free admission! Lovely gardens too. Perfect for a relaxed Monday morning before your flight.
+                </p>
+                <p class="activity-address">Royal Hospital Kilmainham, Dublin 8</p>
+            </div>
+
+            <div class="activity" data-lat="53.3428" data-lng="-6.2615">
+                <div class="activity-time">12:30 PM</div>
+                <div class="activity-name">777 Restaurant</div>
+                <span class="activity-type">Lunch</span>
+                <div class="rating">⭐⭐⭐⭐⭐ 4.6/5</div>
+                <p class="activity-description">
+                    Fun Mexican-inspired tapas spot. Great for a last meal before heading to the airport! Sharing plates, creative cocktails, and lively atmosphere. Try their tacos!
+                </p>
+                <p class="activity-address">7 Castle House, South Great George's Street, Dublin 2</p>
+            </div>
+
+            <div class="activity" data-lat="53.3398" data-lng="-6.2603">
+                <div class="activity-time">3:00 PM</div>
+                <div class="activity-name">Head to Airport</div>
+                <span class="activity-type">Travel</span>
+                <p class="activity-description">
+                    Grab an Aircoach or taxi to Dublin Airport for your evening flight back to Boston. Leave plenty of time - recommend 3 hours before international flights. Slán abhaile! (Safe home!)
+                </p>
+            </div>
+
+            <div class="tips">
+                <div class="tips-title">💡 Top Tips for Your Trip:</div>
+                <ul>
+                    <li><strong>Book Ahead:</strong> Reserve tables at Chapter One, The Winding Stair, and popular spots</li>
+                    <li><strong>Cash:</strong> Some traditional pubs prefer cash, so have euros on hand</li>
+                    <li><strong>Weather:</strong> Pack layers and a rain jacket - Dublin weather is unpredictable!</li>
+                    <li><strong>Walking Shoes:</strong> Dublin is very walkable - comfortable shoes are essential</li>
+                    <li><strong>Tipping:</strong> 10-12% is standard in restaurants (check if service charge included)</li>
+                    <li><strong>Pubs:</strong> Order at the bar in traditional pubs, don't wait for table service</li>
+                    <li><strong>Leap Card:</strong> Get a public transport card if using buses/trams</li>
+                    <li><strong>Temple Bar:</strong> Fun but touristy - we've included better spots too!</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            <p>Have an amazing time in Dublin! 🍀</p>
+            <p><em>Sláinte! (Cheers!)</em></p>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize the map centered on Dublin
+        const map = L.map('map').setView([53.3415, -6.2602], 14);
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19
+        }).addTo(map);
+
+        // Custom icon for hotel
+        const hotelIcon = L.divIcon({
+            html: '🏨',
+            className: 'emoji-icon',
+            iconSize: [30, 30]
+        });
+
+        // Add hotel marker
+        const hotelMarker = L.marker([53.3398, -6.2603], { icon: hotelIcon })
+            .addTo(map)
+            .bindPopup('<strong>The Fitzwilliam Hotel</strong><br>Your home base!');
+
+        // Activity markers with different colors by type
+        const activityTypes = {
+            'Lunch': '🍽️',
+            'Dinner': '🍽️',
+            'Breakfast': '☕',
+            'Brunch': '🥐',
+            'Cocktails': '🍹',
+            'Drinks': '🍺',
+            'Experience': '🎭',
+            'Culture': '🎨',
+            'Shopping': '🛍️',
+            'Café': '☕',
+            'Bar & Fun': '🎮',
+            'Traditional Music': '🎵',
+            'Leisure': '🌳',
+            'Dinner & Drinks': '🍽️'
+        };
+
+        // Collect all activities with coordinates
+        const activities = document.querySelectorAll('.activity[data-lat][data-lng]');
+
+        activities.forEach(activity => {
+            const lat = parseFloat(activity.dataset.lat);
+            const lng = parseFloat(activity.dataset.lng);
+            const name = activity.querySelector('.activity-name').textContent;
+            const type = activity.querySelector('.activity-type')?.textContent || 'Activity';
+            const description = activity.querySelector('.activity-description')?.textContent || '';
+            const address = activity.querySelector('.activity-address')?.textContent || '';
+
+            // Get appropriate emoji for activity type
+            const emoji = activityTypes[type] || '📍';
+
+            // Create custom icon
+            const icon = L.divIcon({
+                html: emoji,
+                className: 'emoji-icon',
+                iconSize: [25, 25]
+            });
+
+            // Create popup content
+            const popupContent = `
+                <strong>${name}</strong><br>
+                <em>${type}</em><br>
+                ${address ? address + '<br>' : ''}
+            `;
+
+            // Add marker to map
+            const marker = L.marker([lat, lng], { icon: icon })
+                .addTo(map)
+                .bindPopup(popupContent);
+
+            // Add click event to activity card to highlight marker
+            activity.addEventListener('click', () => {
+                map.setView([lat, lng], 16);
+                marker.openPopup();
+            });
+        });
+
+        // Add some custom CSS for emoji icons
+        const style = document.createElement('style');
+        style.textContent = `
+            .emoji-icon {
+                background: none;
+                border: none;
+                font-size: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
