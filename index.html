@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Dublin Girls Weekend 🍀</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -14,24 +14,26 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #333;
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 15px;
         }
 
         header {
             text-align: center;
-            padding: 40px 20px;
+            padding: 30px 20px;
             background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
@@ -57,15 +59,16 @@
         #map {
             height: 500px;
             border-radius: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            touch-action: pan-y;
         }
 
         .day-section {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 25px;
+            padding: 25px;
+            margin-bottom: 20px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
@@ -94,7 +97,6 @@
             border-radius: 10px;
             border-left: 4px solid #ff6b6b;
             transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
         }
 
         .activity:hover {
@@ -141,6 +143,175 @@
             color: #888;
             font-size: 0.9em;
             font-style: italic;
+            margin-bottom: 12px;
+        }
+
+        .activity-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .activity-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.2s;
+            min-height: 44px;
+        }
+
+        .activity-link:hover {
+            border-color: #169b62;
+            background: #f0fdf4;
+            transform: translateY(-2px);
+        }
+
+        .activity-link svg {
+            margin-right: 6px;
+            width: 18px;
+            height: 18px;
+        }
+
+        .user-review-section {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 2px solid #e7e7e7;
+        }
+
+        .user-review-toggle {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            width: 100%;
+            min-height: 44px;
+            transition: background 0.2s;
+        }
+
+        .user-review-toggle:hover {
+            background: #5568d3;
+        }
+
+        .user-review-toggle:active {
+            transform: scale(0.98);
+        }
+
+        .user-review-form {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e7e7e7;
+        }
+
+        .user-review-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 5px;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .star {
+            cursor: pointer;
+            color: #ddd;
+            transition: color 0.2s;
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .star:hover,
+        .star.active {
+            color: #ffc107;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1em;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #169b62;
+        }
+
+        .submit-review-btn {
+            background: #169b62;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            min-height: 44px;
+            transition: background 0.2s;
+        }
+
+        .submit-review-btn:hover {
+            background: #128a52;
+        }
+
+        .user-rating-display {
+            background: #f0fdf4;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border-left: 4px solid #169b62;
+        }
+
+        .user-rating-display .rating {
+            color: #ffc107;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .user-rating-display .comment {
+            color: #555;
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        .user-rating-display .timestamp {
+            color: #888;
+            font-size: 0.85em;
+            margin-top: 8px;
         }
 
         .tips {
@@ -165,16 +336,65 @@
         }
 
         @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
             h1 {
                 font-size: 1.8em;
             }
 
+            .subtitle {
+                font-size: 1em;
+            }
+
             .day-title {
-                font-size: 1.4em;
+                font-size: 1.3em;
+            }
+
+            .day-section {
+                padding: 20px 15px;
+            }
+
+            .activity {
+                padding: 15px;
+            }
+
+            .activity-name {
+                font-size: 1.2em;
             }
 
             #map {
-                height: 350px;
+                height: 300px;
+            }
+
+            .activity-links {
+                gap: 8px;
+            }
+
+            .activity-link {
+                font-size: 0.85em;
+                padding: 8px 12px;
+            }
+
+            header {
+                padding: 20px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .activity-link {
+                flex: 1 1 100%;
+                justify-content: center;
+            }
+
+            .day-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .day-icon {
+                margin-bottom: 10px;
             }
         }
     </style>
@@ -198,7 +418,7 @@
                 <h2 class="day-title">Friday - Arrival Day</h2>
             </div>
 
-            <div class="activity" data-lat="53.3398" data-lng="-6.2603">
+            <div class="activity" data-lat="53.3398" data-lng="-6.2603" data-id="arrival">
                 <div class="activity-time">Morning - Arrival</div>
                 <div class="activity-name">Landing in Dublin!</div>
                 <span class="activity-type">Travel</span>
@@ -207,7 +427,7 @@
                 </p>
             </div>
 
-            <div class="activity" data-lat="53.3390" data-lng="-6.2612">
+            <div class="activity" data-lat="53.3390" data-lng="-6.2612" data-id="fade-street">
                 <div class="activity-time">1:00 PM</div>
                 <div class="activity-name">Fade Street Social</div>
                 <span class="activity-type">Lunch</span>
@@ -216,9 +436,25 @@
                     Start your Dublin adventure with a fabulous lunch at this trendy spot. Chef Dylan McGrath's tapas-style menu is perfect for sharing. Try the pork belly bites and their famous fish & chips!
                 </p>
                 <p class="activity-address">4-6 Fade Street, Dublin 2 (5 min walk from hotel)</p>
+                <div class="activity-links">
+                    <a href="https://fadestreetsocial.com/" target="_blank" rel="noopener" class="activity-link">
+                        🌐 Official Website
+                    </a>
+                    <a href="https://www.tripadvisor.com/Restaurant_Review-g186605-d2422361-Reviews-Fade_Street_Social-Dublin_County_Dublin.html" target="_blank" rel="noopener" class="activity-link">
+                        ✈️ TripAdvisor
+                    </a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Fade+Street+Social+Dublin" target="_blank" rel="noopener" class="activity-link">
+                        📍 Google Reviews
+                    </a>
+                </div>
+                <div class="user-review-section">
+                    <button class="user-review-toggle" onclick="toggleReviewForm('fade-street')">Add Your Rating & Notes</button>
+                    <div class="user-review-form" id="review-form-fade-street"></div>
+                    <div class="user-rating-display" id="user-rating-fade-street"></div>
+                </div>
             </div>
 
-            <div class="activity" data-lat="53.3438" data-lng="-6.2674">
+            <div class="activity" data-lat="53.3438" data-lng="-6.2674" data-id="guinness">
                 <div class="activity-time">3:30 PM</div>
                 <div class="activity-name">Guinness Storehouse</div>
                 <span class="activity-type">Experience</span>
@@ -227,9 +463,25 @@
                     A must-do! Learn how Guinness is made, pour your own perfect pint, and enjoy panoramic views of Dublin from the Gravity Bar. Book tickets online in advance!
                 </p>
                 <p class="activity-address">St James's Gate, Dublin 8</p>
+                <div class="activity-links">
+                    <a href="https://www.guinness-storehouse.com/" target="_blank" rel="noopener" class="activity-link">
+                        🌐 Official Website
+                    </a>
+                    <a href="https://www.tripadvisor.com/Attraction_Review-g186605-d189681-Reviews-Guinness_Storehouse-Dublin_County_Dublin.html" target="_blank" rel="noopener" class="activity-link">
+                        ✈️ TripAdvisor
+                    </a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Guinness+Storehouse+Dublin" target="_blank" rel="noopener" class="activity-link">
+                        📍 Google Reviews
+                    </a>
+                </div>
+                <div class="user-review-section">
+                    <button class="user-review-toggle" onclick="toggleReviewForm('guinness')">Add Your Rating & Notes</button>
+                    <div class="user-review-form" id="review-form-guinness"></div>
+                    <div class="user-rating-display" id="user-rating-guinness"></div>
+                </div>
             </div>
 
-            <div class="activity" data-lat="53.3448" data-lng="-6.2639">
+            <div class="activity" data-lat="53.3448" data-lng="-6.2639" data-id="brazen-head">
                 <div class="activity-time">7:00 PM</div>
                 <div class="activity-name">The Brazen Head</div>
                 <span class="activity-type">Dinner & Drinks</span>
@@ -238,9 +490,25 @@
                     Ireland's oldest pub (established 1198)! Traditional Irish food, live music, and great atmosphere. Perfect for your first night. Try the Irish stew and enjoy the trad session.
                 </p>
                 <p class="activity-address">20 Lower Bridge Street, Dublin 8</p>
+                <div class="activity-links">
+                    <a href="https://www.brazenhead.com/" target="_blank" rel="noopener" class="activity-link">
+                        🌐 Official Website
+                    </a>
+                    <a href="https://www.tripadvisor.com/Restaurant_Review-g186605-d718355-Reviews-The_Brazen_Head-Dublin_County_Dublin.html" target="_blank" rel="noopener" class="activity-link">
+                        ✈️ TripAdvisor
+                    </a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=The+Brazen+Head+Dublin" target="_blank" rel="noopener" class="activity-link">
+                        📍 Google Reviews
+                    </a>
+                </div>
+                <div class="user-review-section">
+                    <button class="user-review-toggle" onclick="toggleReviewForm('brazen-head')">Add Your Rating & Notes</button>
+                    <div class="user-review-form" id="review-form-brazen-head"></div>
+                    <div class="user-rating-display" id="user-rating-brazen-head"></div>
+                </div>
             </div>
 
-            <div class="activity" data-lat="53.3420" data-lng="-6.2624">
+            <div class="activity" data-lat="53.3420" data-lng="-6.2624" data-id="vintage-cocktail">
                 <div class="activity-time">10:00 PM</div>
                 <div class="activity-name">The Vintage Cocktail Club</div>
                 <span class="activity-type">Cocktails</span>
@@ -249,6 +517,22 @@
                     Hidden speakeasy-style bar with incredible cocktails. Ring the doorbell to enter this 1920s-inspired gem. Their mixologists are artists! Reserve ahead if possible.
                 </p>
                 <p class="activity-address">15 Crown Alley, Temple Bar, Dublin 2</p>
+                <div class="activity-links">
+                    <a href="https://www.vintagecocktailclub.com/" target="_blank" rel="noopener" class="activity-link">
+                        🌐 Official Website
+                    </a>
+                    <a href="https://www.tripadvisor.com/Attraction_Review-g186605-d4498972-Reviews-The_Vintage_Cocktail_Club-Dublin_County_Dublin.html" target="_blank" rel="noopener" class="activity-link">
+                        ✈️ TripAdvisor
+                    </a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Vintage+Cocktail+Club+Dublin" target="_blank" rel="noopener" class="activity-link">
+                        📍 Google Reviews
+                    </a>
+                </div>
+                <div class="user-review-section">
+                    <button class="user-review-toggle" onclick="toggleReviewForm('vintage-cocktail')">Add Your Rating & Notes</button>
+                    <div class="user-review-form" id="review-form-vintage-cocktail"></div>
+                    <div class="user-rating-display" id="user-rating-vintage-cocktail"></div>
+                </div>
             </div>
         </div>
 
@@ -258,7 +542,7 @@
                 <h2 class="day-title">Saturday - Full Dublin Experience</h2>
             </div>
 
-            <div class="activity" data-lat="53.3406" data-lng="-6.2598">
+            <div class="activity" data-lat="53.3406" data-lng="-6.2598" data-id="woollen-mills">
                 <div class="activity-time">9:00 AM</div>
                 <div class="activity-name">The Woollen Mills</div>
                 <span class="activity-type">Breakfast</span>
@@ -267,9 +551,25 @@
                     Start your day with a hearty Irish breakfast overlooking the Ha'penny Bridge. Great coffee, amazing views, and delicious food. Try their eggs Benedict!
                 </p>
                 <p class="activity-address">42 Lower Ormond Quay, Dublin 1</p>
+                <div class="activity-links">
+                    <a href="https://www.thewoolenmills.com/" target="_blank" rel="noopener" class="activity-link">
+                        🌐 Official Website
+                    </a>
+                    <a href="https://www.tripadvisor.com/Restaurant_Review-g186605-d3852169-Reviews-The_Woollen_Mills_Eating_House-Dublin_County_Dublin.html" target="_blank" rel="noopener" class="activity-link">
+                        ✈️ TripAdvisor
+                    </a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=The+Woollen+Mills+Dublin" target="_blank" rel="noopener" class="activity-link">
+                        📍 Google Reviews
+                    </a>
+                </div>
+                <div class="user-review-section">
+                    <button class="user-review-toggle" onclick="toggleReviewForm('woollen-mills')">Add Your Rating & Notes</button>
+                    <div class="user-review-form" id="review-form-woollen-mills"></div>
+                    <div class="user-rating-display" id="user-rating-woollen-mills"></div>
+                </div>
             </div>
 
-            <div class="activity" data-lat="53.3498" data-lng="-6.2603">
+            <div class="activity" data-lat="53.3498" data-lng="-6.2603" data-id="jameson">
                 <div class="activity-time">11:00 AM</div>
                 <div class="activity-name">Jameson Distillery Bow St.</div>
                 <span class="activity-type">Experience</span>
@@ -278,9 +578,25 @@
                     Discover the story of Irish whiskey! Take a guided tour, enjoy tastings, and learn to make your own whiskey cocktail. The Whiskey Makers experience is highly recommended. Book in advance!
                 </p>
                 <p class="activity-address">Bow Street, Smithfield, Dublin 7</p>
+                <div class="activity-links">
+                    <a href="https://www.jamesonwhiskey.com/en-IE/visit-us/jameson-distillery-bow-st" target="_blank" rel="noopener" class="activity-link">
+                        🌐 Official Website
+                    </a>
+                    <a href="https://www.tripadvisor.com/Attraction_Review-g186605-d2299054-Reviews-Jameson_Distillery_Bow_St-Dublin_County_Dublin.html" target="_blank" rel="noopener" class="activity-link">
+                        ✈️ TripAdvisor
+                    </a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Jameson+Distillery+Bow+Street+Dublin" target="_blank" rel="noopener" class="activity-link">
+                        📍 Google Reviews
+                    </a>
+                </div>
+                <div class="user-review-section">
+                    <button class="user-review-toggle" onclick="toggleReviewForm('jameson')">Add Your Rating & Notes</button>
+                    <div class="user-review-form" id="review-form-jameson"></div>
+                    <div class="user-rating-display" id="user-rating-jameson"></div>
+                </div>
             </div>
 
-            <div class="activity" data-lat="53.3454" data-lng="-6.2626">
+            <div class="activity" data-lat="53.3454" data-lng="-6.2626" data-id="winding-stair">
                 <div class="activity-time">1:30 PM</div>
                 <div class="activity-name">The Winding Stair</div>
                 <span class="activity-type">Lunch</span>
@@ -289,9 +605,25 @@
                     Beautiful restaurant above a bookshop with stunning views of the River Liffey. Irish cuisine with local ingredients. Book a window seat! Their seafood is exceptional.
                 </p>
                 <p class="activity-address">40 Lower Ormond Quay, Dublin 1</p>
+                <div class="activity-links">
+                    <a href="https://winding-stair.com/" target="_blank" rel="noopener" class="activity-link">
+                        🌐 Official Website
+                    </a>
+                    <a href="https://www.tripadvisor.com/Restaurant_Review-g186605-d1093979-Reviews-The_Winding_Stair-Dublin_County_Dublin.html" target="_blank" rel="noopener" class="activity-link">
+                        ✈️ TripAdvisor
+                    </a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=The+Winding+Stair+Dublin" target="_blank" rel="noopener" class="activity-link">
+                        📍 Google Reviews
+                    </a>
+                </div>
+                <div class="user-review-section">
+                    <button class="user-review-toggle" onclick="toggleReviewForm('winding-stair')">Add Your Rating & Notes</button>
+                    <div class="user-review-form" id="review-form-winding-stair"></div>
+                    <div class="user-rating-display" id="user-rating-winding-stair"></div>
+                </div>
             </div>
 
-            <div class="activity" data-lat="53.3418" data-lng="-6.2554">
+            <div class="activity" data-lat="53.3418" data-lng="-6.2554" data-id="trinity">
                 <div class="activity-time">3:30 PM</div>
                 <div class="activity-name">Trinity College & Book of Kells</div>
                 <span class="activity-type">Culture</span>
@@ -300,9 +632,25 @@
                     Stroll through Ireland's oldest university, see the stunning Long Room library, and view the ancient Book of Kells. Perfect for photos and culture!
                 </p>
                 <p class="activity-address">College Green, Dublin 2</p>
+                <div class="activity-links">
+                    <a href="https://www.tcd.ie/visitors/book-of-kells/" target="_blank" rel="noopener" class="activity-link">
+                        🌐 Official Website
+                    </a>
+                    <a href="https://www.tripadvisor.com/Attraction_Review-g186605-d195867-Reviews-The_Book_of_Kells_and_the_Old_Library_Exhibition-Dublin_County_Dublin.html" target="_blank" rel="noopener" class="activity-link">
+                        ✈️ TripAdvisor
+                    </a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Trinity+College+Dublin" target="_blank" rel="noopener" class="activity-link">
+                        📍 Google Reviews
+                    </a>
+                </div>
+                <div class="user-review-section">
+                    <button class="user-review-toggle" onclick="toggleReviewForm('trinity')">Add Your Rating & Notes</button>
+                    <div class="user-review-form" id="review-form-trinity"></div>
+                    <div class="user-rating-display" id="user-rating-trinity"></div>
+                </div>
             </div>
 
-            <div class="activity" data-lat="53.3389" data-lng="-6.2595">
+            <div class="activity" data-lat="53.3389" data-lng="-6.2595" data-id="sophies">
                 <div class="activity-time">5:30 PM</div>
                 <div class="activity-name">Sophie's at The Dean</div>
                 <span class="activity-type">Cocktails</span>
@@ -311,9 +659,25 @@
                     Rooftop bar with incredible views over Dublin! Watch the sunset with creative cocktails. Trendy, fun atmosphere perfect for girls' night. Gets busy so arrive early!
                 </p>
                 <p class="activity-address">The Dean Hotel, 33 Harcourt Street, Dublin 2</p>
+                <div class="activity-links">
+                    <a href="https://www.thedean.ie/eat-drink/sophies/" target="_blank" rel="noopener" class="activity-link">
+                        🌐 Official Website
+                    </a>
+                    <a href="https://www.tripadvisor.com/Restaurant_Review-g186605-d10166777-Reviews-Sophie_s-Dublin_County_Dublin.html" target="_blank" rel="noopener" class="activity-link">
+                        ✈️ TripAdvisor
+                    </a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Sophies+The+Dean+Dublin" target="_blank" rel="noopener" class="activity-link">
+                        📍 Google Reviews
+                    </a>
+                </div>
+                <div class="user-review-section">
+                    <button class="user-review-toggle" onclick="toggleReviewForm('sophies')">Add Your Rating & Notes</button>
+                    <div class="user-review-form" id="review-form-sophies"></div>
+                    <div class="user-rating-display" id="user-rating-sophies"></div>
+                </div>
             </div>
 
-            <div class="activity" data-lat="53.3442" data-lng="-6.2674">
+            <div class="activity" data-lat="53.3442" data-lng="-6.2674" data-id="chapter-one">
                 <div class="activity-time">8:00 PM</div>
                 <div class="activity-name">Chapter One</div>
                 <span class="activity-type">Dinner</span>
@@ -322,9 +686,25 @@
                     Michelin-starred restaurant offering modern Irish cuisine. A splurge-worthy experience! Tasting menu recommended. Book well in advance - this is a highlight!
                 </p>
                 <p class="activity-address">18-19 Parnell Square North, Dublin 1</p>
+                <div class="activity-links">
+                    <a href="https://www.chapteronerestaurant.com/" target="_blank" rel="noopener" class="activity-link">
+                        🌐 Official Website
+                    </a>
+                    <a href="https://www.tripadvisor.com/Restaurant_Review-g186605-d718417-Reviews-Chapter_One-Dublin_County_Dublin.html" target="_blank" rel="noopener" class="activity-link">
+                        ✈️ TripAdvisor
+                    </a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Chapter+One+Restaurant+Dublin" target="_blank" rel="noopener" class="activity-link">
+                        📍 Google Reviews
+                    </a>
+                </div>
+                <div class="user-review-section">
+                    <button class="user-review-toggle" onclick="toggleReviewForm('chapter-one')">Add Your Rating & Notes</button>
+                    <div class="user-review-form" id="review-form-chapter-one"></div>
+                    <div class="user-rating-display" id="user-rating-chapter-one"></div>
+                </div>
             </div>
 
-            <div class="activity" data-lat="53.3444" data-lng="-6.2589">
+            <div class="activity" data-lat="53.3444" data-lng="-6.2589" data-id="token">
                 <div class="activity-time">10:30 PM</div>
                 <div class="activity-name">Token</div>
                 <span class="activity-type">Bar & Fun</span>
@@ -333,6 +713,22 @@
                     Vintage arcade bar! Play retro video games, air hockey, and enjoy craft cocktails. Super fun and unique. Great for laughs and friendly competition!
                 </p>
                 <p class="activity-address">41-43 Pearse Street, Dublin 2</p>
+                <div class="activity-links">
+                    <a href="https://www.tokendublin.ie/" target="_blank" rel="noopener" class="activity-link">
+                        🌐 Official Website
+                    </a>
+                    <a href="https://www.tripadvisor.com/Attraction_Review-g186605-d12862505-Reviews-Token-Dublin_County_Dublin.html" target="_blank" rel="noopener" class="activity-link">
+                        ✈️ TripAdvisor
+                    </a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Token+Dublin" target="_blank" rel="noopener" class="activity-link">
+                        📍 Google Reviews
+                    </a>
+                </div>
+                <div class="user-review-section">
+                    <button class="user-review-toggle" onclick="toggleReviewForm('token')">Add Your Rating & Notes</button>
+                    <div class="user-review-form" id="review-form-token"></div>
+                    <div class="user-rating-display" id="user-rating-token"></div>
+                </div>
             </div>
         </div>
 
@@ -342,7 +738,7 @@
                 <h2 class="day-title">Sunday - Explore & Indulge</h2>
             </div>
 
-            <div class="activity" data-lat="53.3403" data-lng="-6.2582">
+            <div class="activity" data-lat="53.3403" data-lng="-6.2582" data-id="brother-hubbard">
                 <div class="activity-time">10:00 AM</div>
                 <div class="activity-name">Brother Hubbard</div>
                 <span class="activity-type">Brunch</span>
@@ -351,9 +747,25 @@
                     Middle Eastern-inspired brunch spot. Amazing flavors! Try the Turkish eggs or the French toast. Excellent coffee. Expect a queue on weekends - worth the wait!
                 </p>
                 <p class="activity-address">153 Capel Street, Dublin 1</p>
+                <div class="activity-links">
+                    <a href="https://brotherhubbard.ie/" target="_blank" rel="noopener" class="activity-link">
+                        🌐 Official Website
+                    </a>
+                    <a href="https://www.tripadvisor.com/Restaurant_Review-g186605-d3849164-Reviews-Brother_Hubbard-Dublin_County_Dublin.html" target="_blank" rel="noopener" class="activity-link">
+                        ✈️ TripAdvisor
+                    </a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Brother+Hubbard+Dublin" target="_blank" rel="noopener" class="activity-link">
+                        📍 Google Reviews
+                    </a>
+                </div>
+                <div class="user-review-section">
+                    <button class="user-review-toggle" onclick="toggleReviewForm('brother-hubbard')">Add Your Rating & Notes</button>
+                    <div class="user-review-form" id="review-form-brother-hubbard"></div>
+                    <div class="user-rating-display" id="user-rating-brother-hubbard"></div>
+                </div>
             </div>
 
-            <div class="activity" data-lat="53.3375" data-lng="-6.2612">
+            <div class="activity" data-lat="53.3375" data-lng="-6.2612" data-id="stephens-green">
                 <div class="activity-time">12:00 PM</div>
                 <div class="activity-name">St Stephen's Green</div>
                 <span class="activity-type">Leisure</span>
@@ -362,9 +774,22 @@
                     Take a leisurely stroll through this beautiful Victorian park right next to your hotel. Perfect for a Sunday walk, people watching, and taking photos.
                 </p>
                 <p class="activity-address">St Stephen's Green, Dublin 2</p>
+                <div class="activity-links">
+                    <a href="https://www.tripadvisor.com/Attraction_Review-g186605-d195873-Reviews-St_Stephen_s_Green-Dublin_County_Dublin.html" target="_blank" rel="noopener" class="activity-link">
+                        ✈️ TripAdvisor
+                    </a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=St+Stephens+Green+Dublin" target="_blank" rel="noopener" class="activity-link">
+                        📍 Google Reviews
+                    </a>
+                </div>
+                <div class="user-review-section">
+                    <button class="user-review-toggle" onclick="toggleReviewForm('stephens-green')">Add Your Rating & Notes</button>
+                    <div class="user-review-form" id="review-form-stephens-green"></div>
+                    <div class="user-rating-display" id="user-rating-stephens-green"></div>
+                </div>
             </div>
 
-            <div class="activity" data-lat="53.3398" data-lng="-6.2603">
+            <div class="activity" data-lat="53.3398" data-lng="-6.2603" data-id="grafton-street">
                 <div class="activity-time">1:00 PM</div>
                 <div class="activity-name">Grafton Street Shopping</div>
                 <span class="activity-type">Shopping</span>
@@ -373,9 +798,22 @@
                     Dublin's main shopping street! Browse Irish brands, grab souvenirs, and enjoy street performers. Pop into Brown Thomas for luxury shopping. Great for gifts!
                 </p>
                 <p class="activity-address">Grafton Street, Dublin 2</p>
+                <div class="activity-links">
+                    <a href="https://www.tripadvisor.com/Attraction_Review-g186605-d195874-Reviews-Grafton_Street-Dublin_County_Dublin.html" target="_blank" rel="noopener" class="activity-link">
+                        ✈️ TripAdvisor
+                    </a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Grafton+Street+Dublin" target="_blank" rel="noopener" class="activity-link">
+                        📍 Google Reviews
+                    </a>
+                </div>
+                <div class="user-review-section">
+                    <button class="user-review-toggle" onclick="toggleReviewForm('grafton-street')">Add Your Rating & Notes</button>
+                    <div class="user-review-form" id="review-form-grafton-street"></div>
+                    <div class="user-rating-display" id="user-rating-grafton-street"></div>
+                </div>
             </div>
 
-            <div class="activity" data-lat="53.3422" data-lng="-6.2628">
+            <div class="activity" data-lat="53.3422" data-lng="-6.2628" data-id="queen-tarts">
                 <div class="activity-time">3:00 PM</div>
                 <div class="activity-name">Queen of Tarts</div>
                 <span class="activity-type">Café</span>
@@ -384,9 +822,25 @@
                     Charming café with incredible homemade cakes and pastries. Perfect afternoon tea spot! Try their lemon meringue pie or chocolate cake. Cozy and delightful!
                 </p>
                 <p class="activity-address">4 Cork Hill, Dublin 2</p>
+                <div class="activity-links">
+                    <a href="https://www.queenoftarts.ie/" target="_blank" rel="noopener" class="activity-link">
+                        🌐 Official Website
+                    </a>
+                    <a href="https://www.tripadvisor.com/Restaurant_Review-g186605-d1096040-Reviews-Queen_of_Tarts-Dublin_County_Dublin.html" target="_blank" rel="noopener" class="activity-link">
+                        ✈️ TripAdvisor
+                    </a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Queen+of+Tarts+Dublin" target="_blank" rel="noopener" class="activity-link">
+                        📍 Google Reviews
+                    </a>
+                </div>
+                <div class="user-review-section">
+                    <button class="user-review-toggle" onclick="toggleReviewForm('queen-tarts')">Add Your Rating & Notes</button>
+                    <div class="user-review-form" id="review-form-queen-tarts"></div>
+                    <div class="user-rating-display" id="user-rating-queen-tarts"></div>
+                </div>
             </div>
 
-            <div class="activity" data-lat="53.3456" data-lng="-6.2645">
+            <div class="activity" data-lat="53.3456" data-lng="-6.2645" data-id="the-church">
                 <div class="activity-time">6:00 PM</div>
                 <div class="activity-name">The Church</div>
                 <span class="activity-type">Dinner & Drinks</span>
@@ -395,9 +849,25 @@
                     Unique restaurant in a converted church! Multiple floors, bars, and dining areas. Great atmosphere, good food, and interesting setting. Try to get a seat near the organ!
                 </p>
                 <p class="activity-address">Junction of Mary Street & Jervis Street, Dublin 1</p>
+                <div class="activity-links">
+                    <a href="https://thechurch.ie/" target="_blank" rel="noopener" class="activity-link">
+                        🌐 Official Website
+                    </a>
+                    <a href="https://www.tripadvisor.com/Restaurant_Review-g186605-d1096016-Reviews-The_Church_Bar_and_Restaurant-Dublin_County_Dublin.html" target="_blank" rel="noopener" class="activity-link">
+                        ✈️ TripAdvisor
+                    </a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=The+Church+Bar+Restaurant+Dublin" target="_blank" rel="noopener" class="activity-link">
+                        📍 Google Reviews
+                    </a>
+                </div>
+                <div class="user-review-section">
+                    <button class="user-review-toggle" onclick="toggleReviewForm('the-church')">Add Your Rating & Notes</button>
+                    <div class="user-review-form" id="review-form-the-church"></div>
+                    <div class="user-rating-display" id="user-rating-the-church"></div>
+                </div>
             </div>
 
-            <div class="activity" data-lat="53.3443" data-lng="-6.2675">
+            <div class="activity" data-lat="53.3443" data-lng="-6.2675" data-id="odonoghues">
                 <div class="activity-time">9:00 PM</div>
                 <div class="activity-name">O'Donoghue's Bar</div>
                 <span class="activity-type">Traditional Music</span>
@@ -406,6 +876,22 @@
                     Famous traditional Irish music pub! The Dubliners started here. Authentic atmosphere, great Guinness, and excellent live music sessions. A true Dublin experience!
                 </p>
                 <p class="activity-address">15 Merrion Row, Dublin 2</p>
+                <div class="activity-links">
+                    <a href="https://www.odonoghues.ie/" target="_blank" rel="noopener" class="activity-link">
+                        🌐 Official Website
+                    </a>
+                    <a href="https://www.tripadvisor.com/Attraction_Review-g186605-d2423612-Reviews-O_Donoghue_s_Bar-Dublin_County_Dublin.html" target="_blank" rel="noopener" class="activity-link">
+                        ✈️ TripAdvisor
+                    </a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=O+Donoghues+Bar+Dublin" target="_blank" rel="noopener" class="activity-link">
+                        📍 Google Reviews
+                    </a>
+                </div>
+                <div class="user-review-section">
+                    <button class="user-review-toggle" onclick="toggleReviewForm('odonoghues')">Add Your Rating & Notes</button>
+                    <div class="user-review-form" id="review-form-odonoghues"></div>
+                    <div class="user-rating-display" id="user-rating-odonoghues"></div>
+                </div>
             </div>
         </div>
 
@@ -415,7 +901,7 @@
                 <h2 class="day-title">Monday - Final Adventures</h2>
             </div>
 
-            <div class="activity" data-lat="53.3398" data-lng="-6.2603">
+            <div class="activity" data-lat="53.3398" data-lng="-6.2603" data-id="fitzwilliam-breakfast">
                 <div class="activity-time">8:30 AM</div>
                 <div class="activity-name">The Fitzwilliam Hotel Breakfast</div>
                 <span class="activity-type">Breakfast</span>
@@ -424,9 +910,25 @@
                     Enjoy a leisurely breakfast at your hotel before checking out. They have an excellent buffet spread to fuel you for your last morning!
                 </p>
                 <p class="activity-address">At the hotel</p>
+                <div class="activity-links">
+                    <a href="https://www.fitzwilliamhoteldublin.com/" target="_blank" rel="noopener" class="activity-link">
+                        🌐 Official Website
+                    </a>
+                    <a href="https://www.tripadvisor.com/Hotel_Review-g186605-d230227-Reviews-The_Fitzwilliam_Hotel-Dublin_County_Dublin.html" target="_blank" rel="noopener" class="activity-link">
+                        ✈️ TripAdvisor
+                    </a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Fitzwilliam+Hotel+Dublin" target="_blank" rel="noopener" class="activity-link">
+                        📍 Google Reviews
+                    </a>
+                </div>
+                <div class="user-review-section">
+                    <button class="user-review-toggle" onclick="toggleReviewForm('fitzwilliam-breakfast')">Add Your Rating & Notes</button>
+                    <div class="user-review-form" id="review-form-fitzwilliam-breakfast"></div>
+                    <div class="user-rating-display" id="user-rating-fitzwilliam-breakfast"></div>
+                </div>
             </div>
 
-            <div class="activity" data-lat="53.3415" data-lng="-6.2844">
+            <div class="activity" data-lat="53.3415" data-lng="-6.2844" data-id="imma">
                 <div class="activity-time">10:00 AM</div>
                 <div class="activity-name">Irish Museum of Modern Art</div>
                 <span class="activity-type">Culture</span>
@@ -435,9 +937,25 @@
                     Beautiful museum in the Royal Hospital Kilmainham. Free admission! Lovely gardens too. Perfect for a relaxed Monday morning before your flight.
                 </p>
                 <p class="activity-address">Royal Hospital Kilmainham, Dublin 8</p>
+                <div class="activity-links">
+                    <a href="https://imma.ie/" target="_blank" rel="noopener" class="activity-link">
+                        🌐 Official Website
+                    </a>
+                    <a href="https://www.tripadvisor.com/Attraction_Review-g186605-d243714-Reviews-Irish_Museum_of_Modern_Art-Dublin_County_Dublin.html" target="_blank" rel="noopener" class="activity-link">
+                        ✈️ TripAdvisor
+                    </a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Irish+Museum+Modern+Art+Dublin" target="_blank" rel="noopener" class="activity-link">
+                        📍 Google Reviews
+                    </a>
+                </div>
+                <div class="user-review-section">
+                    <button class="user-review-toggle" onclick="toggleReviewForm('imma')">Add Your Rating & Notes</button>
+                    <div class="user-review-form" id="review-form-imma"></div>
+                    <div class="user-rating-display" id="user-rating-imma"></div>
+                </div>
             </div>
 
-            <div class="activity" data-lat="53.3428" data-lng="-6.2615">
+            <div class="activity" data-lat="53.3428" data-lng="-6.2615" data-id="777-restaurant">
                 <div class="activity-time">12:30 PM</div>
                 <div class="activity-name">777 Restaurant</div>
                 <span class="activity-type">Lunch</span>
@@ -446,9 +964,25 @@
                     Fun Mexican-inspired tapas spot. Great for a last meal before heading to the airport! Sharing plates, creative cocktails, and lively atmosphere. Try their tacos!
                 </p>
                 <p class="activity-address">7 Castle House, South Great George's Street, Dublin 2</p>
+                <div class="activity-links">
+                    <a href="https://www.777.ie/" target="_blank" rel="noopener" class="activity-link">
+                        🌐 Official Website
+                    </a>
+                    <a href="https://www.tripadvisor.com/Restaurant_Review-g186605-d3850104-Reviews-777-Dublin_County_Dublin.html" target="_blank" rel="noopener" class="activity-link">
+                        ✈️ TripAdvisor
+                    </a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=777+Restaurant+Dublin" target="_blank" rel="noopener" class="activity-link">
+                        📍 Google Reviews
+                    </a>
+                </div>
+                <div class="user-review-section">
+                    <button class="user-review-toggle" onclick="toggleReviewForm('777-restaurant')">Add Your Rating & Notes</button>
+                    <div class="user-review-form" id="review-form-777-restaurant"></div>
+                    <div class="user-rating-display" id="user-rating-777-restaurant"></div>
+                </div>
             </div>
 
-            <div class="activity" data-lat="53.3398" data-lng="-6.2603">
+            <div class="activity" data-lat="53.3398" data-lng="-6.2603" data-id="airport">
                 <div class="activity-time">3:00 PM</div>
                 <div class="activity-name">Head to Airport</div>
                 <span class="activity-type">Travel</span>
@@ -526,8 +1060,6 @@
             const lng = parseFloat(activity.dataset.lng);
             const name = activity.querySelector('.activity-name').textContent;
             const type = activity.querySelector('.activity-type')?.textContent || 'Activity';
-            const description = activity.querySelector('.activity-description')?.textContent || '';
-            const address = activity.querySelector('.activity-address')?.textContent || '';
 
             // Get appropriate emoji for activity type
             const emoji = activityTypes[type] || '📍';
@@ -540,11 +1072,7 @@
             });
 
             // Create popup content
-            const popupContent = `
-                <strong>${name}</strong><br>
-                <em>${type}</em><br>
-                ${address ? address + '<br>' : ''}
-            `;
+            const popupContent = `<strong>${name}</strong><br><em>${type}</em>`;
 
             // Add marker to map
             const marker = L.marker([lat, lng], { icon: icon })
@@ -552,13 +1080,130 @@
                 .bindPopup(popupContent);
 
             // Add click event to activity card to highlight marker
-            activity.addEventListener('click', () => {
+            activity.addEventListener('click', (e) => {
+                // Don't zoom if clicking on links or buttons
+                if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('button') || e.target.closest('a')) {
+                    return;
+                }
                 map.setView([lat, lng], 16);
                 marker.openPopup();
             });
         });
 
-        // Add some custom CSS for emoji icons
+        // User review functionality
+        function toggleReviewForm(activityId) {
+            const form = document.getElementById(`review-form-${activityId}`);
+
+            if (form.classList.contains('active')) {
+                form.classList.remove('active');
+            } else {
+                form.classList.add('active');
+                if (!form.innerHTML) {
+                    createReviewForm(activityId);
+                }
+            }
+        }
+
+        function createReviewForm(activityId) {
+            const form = document.getElementById(`review-form-${activityId}`);
+
+            form.innerHTML = `
+                <div class="form-group">
+                    <label>Your Rating:</label>
+                    <div class="star-rating" id="star-rating-${activityId}">
+                        <span class="star" data-rating="1" onclick="setRating('${activityId}', 1)">⭐</span>
+                        <span class="star" data-rating="2" onclick="setRating('${activityId}', 2)">⭐</span>
+                        <span class="star" data-rating="3" onclick="setRating('${activityId}', 3)">⭐</span>
+                        <span class="star" data-rating="4" onclick="setRating('${activityId}', 4)">⭐</span>
+                        <span class="star" data-rating="5" onclick="setRating('${activityId}', 5)">⭐</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="comment-${activityId}">Your Notes/Comments:</label>
+                    <textarea id="comment-${activityId}" placeholder="What did you think? Any tips for next time?"></textarea>
+                </div>
+                <button type="button" class="submit-review-btn" onclick="submitReview('${activityId}')">Save My Review</button>
+            `;
+
+            loadExistingReview(activityId);
+        }
+
+        let currentRatings = {};
+
+        function setRating(activityId, rating) {
+            currentRatings[activityId] = rating;
+            const stars = document.querySelectorAll(`#star-rating-${activityId} .star`);
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function submitReview(activityId) {
+            const rating = currentRatings[activityId] || 0;
+            const comment = document.getElementById(`comment-${activityId}`).value;
+
+            if (rating === 0) {
+                alert('Please select a star rating!');
+                return;
+            }
+
+            const review = {
+                rating: rating,
+                comment: comment,
+                timestamp: new Date().toISOString()
+            };
+
+            localStorage.setItem(`review-${activityId}`, JSON.stringify(review));
+            displayUserReview(activityId, review);
+
+            // Close the form
+            document.getElementById(`review-form-${activityId}`).classList.remove('active');
+
+            // Show success feedback
+            alert('Your review has been saved!');
+        }
+
+        function loadExistingReview(activityId) {
+            const saved = localStorage.getItem(`review-${activityId}`);
+            if (saved) {
+                const review = JSON.parse(saved);
+                setRating(activityId, review.rating);
+                document.getElementById(`comment-${activityId}`).value = review.comment;
+                displayUserReview(activityId, review);
+            }
+        }
+
+        function displayUserReview(activityId, review) {
+            const displayDiv = document.getElementById(`user-rating-${activityId}`);
+            const stars = '⭐'.repeat(review.rating);
+            const date = new Date(review.timestamp).toLocaleDateString();
+
+            displayDiv.innerHTML = `
+                <div class="rating">${stars} ${review.rating}/5</div>
+                <div class="comment">${review.comment || 'No comments yet'}</div>
+                <div class="timestamp">Saved on ${date}</div>
+            `;
+            displayDiv.style.display = 'block';
+        }
+
+        // Load all existing reviews on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const allActivities = document.querySelectorAll('.activity[data-id]');
+            allActivities.forEach(activity => {
+                const activityId = activity.dataset.id;
+                const saved = localStorage.getItem(`review-${activityId}`);
+                if (saved) {
+                    const review = JSON.parse(saved);
+                    displayUserReview(activityId, review);
+                }
+            });
+        });
+
+        // Add custom CSS for emoji icons
         const style = document.createElement('style');
         style.textContent = `
             .emoji-icon {
