@@ -241,18 +241,44 @@
 
         .star {
             cursor: pointer;
-            color: #ddd;
-            transition: color 0.2s;
+            color: #e0e0e0;
+            transition: all 0.2s;
             min-width: 44px;
             min-height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
+            filter: grayscale(100%);
+            opacity: 0.4;
         }
 
-        .star:hover,
+        .star:hover {
+            transform: scale(1.2);
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
         .star.active {
             color: #ffc107;
+            filter: grayscale(0%) drop-shadow(0 0 8px rgba(255, 193, 7, 0.6));
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .star-rating:hover .star {
+            opacity: 0.3;
+        }
+
+        .star-rating:hover .star:hover,
+        .star-rating:hover .star:hover ~ .star {
+            opacity: 1;
+            filter: grayscale(0%);
+        }
+
+        .star-rating .star.active ~ .star {
+            color: #e0e0e0;
+            filter: grayscale(100%);
+            opacity: 0.4;
         }
 
         .form-group textarea {
@@ -552,7 +578,7 @@
                 </p>
                 <p class="activity-address">42 Lower Ormond Quay, Dublin 1</p>
                 <div class="activity-links">
-                    <a href="https://www.thewoolenmills.com/" target="_blank" rel="noopener" class="activity-link">
+                    <a href="https://www.thewoollenmills.com/" target="_blank" rel="noopener" class="activity-link">
                         🌐 Official Website
                     </a>
                     <a href="https://www.tripadvisor.com/Restaurant_Review-g186605-d3852169-Reviews-The_Woollen_Mills_Eating_House-Dublin_County_Dublin.html" target="_blank" rel="noopener" class="activity-link">
@@ -1111,12 +1137,23 @@
                 <div class="form-group">
                     <label>Your Rating:</label>
                     <div class="star-rating" id="star-rating-${activityId}">
-                        <span class="star" data-rating="1" onclick="setRating('${activityId}', 1)">⭐</span>
-                        <span class="star" data-rating="2" onclick="setRating('${activityId}', 2)">⭐</span>
-                        <span class="star" data-rating="3" onclick="setRating('${activityId}', 3)">⭐</span>
-                        <span class="star" data-rating="4" onclick="setRating('${activityId}', 4)">⭐</span>
-                        <span class="star" data-rating="5" onclick="setRating('${activityId}', 5)">⭐</span>
+                        <span class="star" data-rating="1" onclick="setRating('${activityId}', 1)"
+                              onmouseover="previewRating('${activityId}', 1)"
+                              onmouseout="resetPreview('${activityId}')">⭐</span>
+                        <span class="star" data-rating="2" onclick="setRating('${activityId}', 2)"
+                              onmouseover="previewRating('${activityId}', 2)"
+                              onmouseout="resetPreview('${activityId}')">⭐</span>
+                        <span class="star" data-rating="3" onclick="setRating('${activityId}', 3)"
+                              onmouseover="previewRating('${activityId}', 3)"
+                              onmouseout="resetPreview('${activityId}')">⭐</span>
+                        <span class="star" data-rating="4" onclick="setRating('${activityId}', 4)"
+                              onmouseover="previewRating('${activityId}', 4)"
+                              onmouseout="resetPreview('${activityId}')">⭐</span>
+                        <span class="star" data-rating="5" onclick="setRating('${activityId}', 5)"
+                              onmouseover="previewRating('${activityId}', 5)"
+                              onmouseout="resetPreview('${activityId}')">⭐</span>
                     </div>
+                    <div id="rating-text-${activityId}" style="margin-top: 10px; font-weight: 600; color: #169b62; min-height: 24px;"></div>
                 </div>
                 <div class="form-group">
                     <label for="comment-${activityId}">Your Notes/Comments:</label>
@@ -1130,6 +1167,35 @@
 
         let currentRatings = {};
 
+        const ratingLabels = {
+            1: '⭐ Poor',
+            2: '⭐⭐ Fair',
+            3: '⭐⭐⭐ Good',
+            4: '⭐⭐⭐⭐ Very Good',
+            5: '⭐⭐⭐⭐⭐ Excellent'
+        };
+
+        function previewRating(activityId, rating) {
+            const ratingText = document.getElementById(`rating-text-${activityId}`);
+            if (ratingText) {
+                ratingText.textContent = ratingLabels[rating];
+                ratingText.style.fontSize = '1.1em';
+            }
+        }
+
+        function resetPreview(activityId) {
+            const ratingText = document.getElementById(`rating-text-${activityId}`);
+            const currentRating = currentRatings[activityId];
+            if (ratingText) {
+                if (currentRating) {
+                    ratingText.textContent = `Selected: ${ratingLabels[currentRating]}`;
+                    ratingText.style.fontSize = '1em';
+                } else {
+                    ratingText.textContent = '';
+                }
+            }
+        }
+
         function setRating(activityId, rating) {
             currentRatings[activityId] = rating;
             const stars = document.querySelectorAll(`#star-rating-${activityId} .star`);
@@ -1140,6 +1206,13 @@
                     star.classList.remove('active');
                 }
             });
+
+            // Update rating text
+            const ratingText = document.getElementById(`rating-text-${activityId}`);
+            if (ratingText) {
+                ratingText.textContent = `Selected: ${ratingLabels[rating]}`;
+                ratingText.style.fontSize = '1em';
+            }
         }
 
         function submitReview(activityId) {
@@ -1174,6 +1247,12 @@
                 setRating(activityId, review.rating);
                 document.getElementById(`comment-${activityId}`).value = review.comment;
                 displayUserReview(activityId, review);
+
+                // Show the rating text
+                const ratingText = document.getElementById(`rating-text-${activityId}`);
+                if (ratingText) {
+                    ratingText.textContent = `Selected: ${ratingLabels[review.rating]}`;
+                }
             }
         }
 
